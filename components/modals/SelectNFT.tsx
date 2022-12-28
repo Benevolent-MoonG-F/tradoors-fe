@@ -50,6 +50,7 @@ const SelectNFT = ({
           <Flex maxH={"200px"} overflowY={"scroll"} flexDirection={"column"}>
             {NFTs?.map((NFT) => (
               <Flex
+                key={NFT?.id}
                 border={selectedNFT?.id === NFT?.id ? "1px solid" : "none"}
                 borderRadius='4px'
                 borderColor='rgba(255, 0, 89, 0.474)'

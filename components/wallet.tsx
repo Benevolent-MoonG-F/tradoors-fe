@@ -180,6 +180,7 @@ export const WalletSection = ({
           <a
             href='https://nft-juno.loop.markets/exploreCollection/tradooors'
             target={"_blank"}
+            rel='noreferrer'
           >
             <Text
               cursor={"pointer"}
@@ -253,6 +254,7 @@ export const WalletSection = ({
               <a
                 href='https://nft-juno.loop.markets/exploreCollection/tradooors'
                 target={"_blank"}
+                rel='noreferrer'
               >
                 <Text mt={5} fontSize={"20px"}>
                   Marketplace
