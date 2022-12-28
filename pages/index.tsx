@@ -774,8 +774,8 @@ export default function Home() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {userPredictions?.map((prediction) => (
-                      <Tr>
+                    {userPredictions?.map((prediction, i) => (
+                      <Tr key={i}>
                         <Td borderColor={"rgba(255, 0, 89, 0.474)"}>
                           {prediction?.is_winner === false ? "Pending" : "Won"}
                         </Td>
@@ -1151,10 +1151,18 @@ export default function Home() {
           <Text fontSize={"18px"} fontWeight={"600"} color='#ffffff'>
             Socials -
           </Text>
-          <a href='https://discord.gg/hhfu8snRtX' target={"_blank"}>
+          <a
+            href='https://discord.gg/hhfu8snRtX'
+            rel='noreferrer'
+            target={"_blank"}
+          >
             <Image cursor={"pointer"} src={DISCORD.src} />
           </a>
-          <a href='https://twitter.com/TradooorsNFT'>
+          <a
+            rel='noreferrer'
+            target={"_blank"}
+            href='https://twitter.com/TradooorsNFT'
+          >
             <Image src={TWITTER.src} />
           </a>
         </Flex>
