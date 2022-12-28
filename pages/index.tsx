@@ -109,42 +109,42 @@ export default function Home() {
   const [atomFinal, setAtomFinal] = useState("");
   const [tokenAmount, settokenAmount] = useState("");
 
-  const getBalance = async () => {
-    if (!address) {
-      setBalance(new BigNumber(0));
-      setFetchingBalance(false);
-      return;
-    }
+  // const getBalance = async () => {
+  //   if (!address) {
+  //     setBalance(new BigNumber(0));
+  //     setFetchingBalance(false);
+  //     return;
+  //   }
 
-    let rpcEndpoint = await getRpcEndpoint();
+  //   let rpcEndpoint = await getRpcEndpoint();
 
-    if (!rpcEndpoint) {
-      console.log("no rpc endpoint — using a fallback");
-      rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
-    }
+  //   if (!rpcEndpoint) {
+  //     console.log("no rpc endpoint — using a fallback");
+  //     rpcEndpoint = `https://rpc.cosmos.directory/${chainName}`;
+  //   }
 
-    // get RPC client
-    const client = await cosmos.ClientFactory.createRPCQueryClient({
-      rpcEndpoint,
-    });
+  //   // get RPC client
+  //   const client = await cosmos.ClientFactory.createRPCQueryClient({
+  //     rpcEndpoint,
+  //   });
 
-    // fetch balance
-    const balance = await client.cosmos.bank.v1beta1.balance({
-      address,
-      denom: chainassets?.assets[0].base as string,
-    });
+  //   // fetch balance
+  //   const balance = await client.cosmos.bank.v1beta1.balance({
+  //     address,
+  //     denom: chainassets?.assets[0].base as string,
+  //   });
 
-    // Get the display exponent
-    // we can get the exponent from chain registry asset denom_units
-    const exp = coin.denom_units.find((unit) => unit.denom === coin.display)
-      ?.exponent as number;
+  //   // Get the display exponent
+  //   // we can get the exponent from chain registry asset denom_units
+  //   const exp = coin.denom_units.find((unit) => unit.denom === coin.display)
+  //     ?.exponent as number;
 
-    // show balance in display values by exponentiating it
-    const a = new BigNumber(balance.balance.amount);
-    const amount = a.multipliedBy(10 ** -exp);
-    setBalance(amount);
-    setFetchingBalance(false);
-  };
+  //   // show balance in display values by exponentiating it
+  //   const a = new BigNumber(balance.balance.amount);
+  //   const amount = a.multipliedBy(10 ** -exp);
+  //   setBalance(amount);
+  //   setFetchingBalance(false);
+  // };
 
   const assets = [
     {
@@ -167,13 +167,13 @@ export default function Home() {
   ];
 
   const selectStyles = {
-    input: (styles) => ({
+    input: (styles: any) => ({
       ...styles,
       width: "250px",
       // backgroundColor: "transparent",
       color: "white",
     }),
-    control: (styles, {}) => ({
+    control: (styles: any, {}) => ({
       ...styles,
       backgroundColor: "transparent",
       borderColor: "rgba(255, 0, 89, 0.474)",
@@ -189,17 +189,17 @@ export default function Home() {
         borderColor: "rgba(255, 0, 89, 0.474)",
       },
     }),
-    valueContainer: (style) => ({
+    valueContainer: (style: any) => ({
       ...style,
       color: "white",
     }),
-    menuList: (styles) => {
+    menuList: (styles: any) => {
       return {
         ...styles,
         backgroundColor: "black",
       };
     },
-    option: (styles, {}) => {
+    option: (styles: any, {}) => {
       return {
         ...styles,
         color: "white",
@@ -285,8 +285,8 @@ export default function Home() {
     const getPrice = async () => {
       if (list) {
         try {
-          const asset = list.filter(
-            (item) => item.symbol === selectedAsset?.toLowerCase()
+          const asset: any[] = list.filter(
+            (item: any) => item.symbol === selectedAsset?.toLowerCase()
           );
 
           const coinInfo = await axios.get(
