@@ -19,7 +19,7 @@ interface TransactionModalProps {
   onClose: () => void;
   NFTs: any[];
   setselectedNFT: Dispatch<SetStateAction<string>>;
-  selectedNFT: string;
+  selectedNFT: any;
 }
 
 const SelectNFT = ({
