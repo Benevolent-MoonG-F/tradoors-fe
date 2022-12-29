@@ -5,13 +5,10 @@ import {
   ModalContent,
   ModalCloseButton,
   ModalHeader,
-  Button,
-  Spinner,
   Flex,
   Text,
-  Circle,
 } from "@chakra-ui/react";
-import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Icon } from "@chakra-ui/icons";
 import { Dispatch, SetStateAction } from "react";
 
 interface TransactionModalProps {
@@ -21,6 +18,15 @@ interface TransactionModalProps {
   setselectedNFT: Dispatch<SetStateAction<string>>;
   selectedNFT: any;
 }
+
+const CircleIcon = (props: any) => (
+  <Icon viewBox='0 0 200 200' {...props}>
+    <path
+      fill='currentColor'
+      d='M 100, 100 m -75, 0 a 75,75 0 1,0 150,0 a 75,75 0 1,0 -150,0'
+    />
+  </Icon>
+);
 
 const SelectNFT = ({
   isOpen,
@@ -65,8 +71,17 @@ const SelectNFT = ({
                 }}
                 cursor={"pointer"}
                 p={2}
+                justifyContent={"space-between"}
               >
-                #{NFT?.id}
+                <Text> #{NFT?.id}</Text>
+                {NFT?.used === true && (
+                  <Flex alignItems={"center"}>
+                    <CircleIcon boxSize={2} />
+                    <Text ml={1} fontSize={"14px"}>
+                      staked
+                    </Text>
+                  </Flex>
+                )}
               </Flex>
             ))}
           </Flex>

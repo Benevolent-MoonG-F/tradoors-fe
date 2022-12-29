@@ -23,6 +23,7 @@ import {
   Tbody,
   Td,
   useMediaQuery,
+  Tooltip,
 } from "@chakra-ui/react";
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs";
 import {
@@ -242,7 +243,7 @@ export default function Home() {
             console.error("stargateClient undefined or address undefined.");
             return;
           }
-          const allTokens = [];
+          // const allTokens = [];
           const msg = {
             get_user_locked_tokens: {
               user: address,
@@ -260,17 +261,28 @@ export default function Home() {
             msg
           );
 
+          console.log("token", query?.locked_tokens.length);
+
+          const wallet_nfts = [];
+          const used_nfts = [];
+
           for (let i = 0; i < tokens.data.data.tokens.length; i++) {
             const nft = { used: false, id: tokens.data.data.tokens[i] };
-            allTokens.push(nft);
+            wallet_nfts.push(nft);
           }
 
-          for (let i = 0; query?.locked_tokens.length; i++) {
-            const nft = { used: true, id: query?.locked_token[i] };
-            allTokens.push(nft);
+          for (let j = 0; j < query?.locked_tokens.length; j++) {
+            const nft = { used: true, id: query?.locked_tokens[j] };
+            used_nfts.push(nft);
           }
 
-          console.log("query", allTokens);
+          // console.log("query", allTokens);
+
+          const allTokens = wallet_nfts.concat(used_nfts);
+
+          allTokens.sort(function (a, b) {
+            return a.id - b.id;
+          });
 
           setallNFTs(allTokens);
         } catch (err) {
@@ -881,20 +893,33 @@ export default function Home() {
           </Flex>
         ) : (
           <>
-            <Flex
-              mt={20}
-              borderRadius={"6px"}
-              px={10}
-              py={5}
+            <Tooltip
+              hasArrow
+              label='Weekly Prize Pots are generated through commission earned on the Tradooors Validatoors, stake with us to increase the size of the prize pool each week'
+              bg='black'
+              placement='left-start'
               border={"3px solid rgba(255, 0, 89, 0.474)"}
-              flexDirection={"column"}
-              w={"200px"}
             >
-              <Text fontWeight={"bold"} fontSize={"24px"} textAlign={"center"}>
-                $6000
-              </Text>
-              <Text>In Weekly Pot</Text>
-            </Flex>
+              <Flex
+                cursor={"pointer"}
+                mt={20}
+                borderRadius={"6px"}
+                px={10}
+                py={5}
+                border={"3px solid rgba(255, 0, 89, 0.474)"}
+                flexDirection={"column"}
+                w={"200px"}
+              >
+                <Text
+                  fontWeight={"bold"}
+                  fontSize={"24px"}
+                  textAlign={"center"}
+                >
+                  $6000
+                </Text>
+                <Text>In Weekly Pot</Text>
+              </Flex>
+            </Tooltip>
 
             <Flex
               w={isMobileDevice ? "350px" : "500px"}

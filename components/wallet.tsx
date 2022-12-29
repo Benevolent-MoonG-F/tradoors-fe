@@ -192,6 +192,21 @@ export const WalletSection = ({
               Marketplace
             </Text>
           </a>
+          <a
+            href='https://www.mintscan.io/juno/validators/junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
+            target={"_blank"}
+            rel='noreferrer'
+          >
+            <Text
+              cursor={"pointer"}
+              mr={10}
+              fontSize={"18px"}
+              color='white'
+              fontWeight={"800"}
+            >
+              Validator
+            </Text>
+          </a>
           {isAdmin && (
             <Text
               onClick={() => setAdminPage(true)}
@@ -258,6 +273,16 @@ export const WalletSection = ({
               >
                 <Text mt={5} fontSize={"20px"}>
                   Marketplace
+                </Text>
+              </a>
+
+              <a
+                href='https://www.mintscan.io/juno/validators/junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
+                target={"_blank"}
+                rel='noreferrer'
+              >
+                <Text mt={5} fontSize={"20px"}>
+                  Validator
                 </Text>
               </a>
 
