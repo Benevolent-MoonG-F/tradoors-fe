@@ -565,11 +565,13 @@ export default function Home() {
       setopenModal(true);
       setTransactionStatus("pending");
 
+      console.log("selected", selectedNFT?.id);
+
       let msg = {
         predict: {
           asset: selectedAsset?.toLowerCase(),
           price: parseFloat(prediction),
-          nft_id: tokenid,
+          nft_id: selectedNFT?.id,
         },
       };
 
