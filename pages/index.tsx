@@ -454,6 +454,7 @@ export default function Home() {
 
           console.log("query", query);
         } catch (err) {
+          setuserPredictions([]);
           console.log(err);
         }
       }
