@@ -380,6 +380,8 @@ export default function Home() {
     getRound();
   }, [address, recheckRoundCounter]);
 
+  console.log("previousroundInfo", previousroundInfo);
+
   useEffect(() => {
     const checkTransactions = async () => {
       if (dashboard) {
