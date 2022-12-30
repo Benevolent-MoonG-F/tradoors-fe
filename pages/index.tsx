@@ -104,6 +104,7 @@ export default function Home() {
   const [atomPrecision, setatomPrecision] = useState(0);
   const [previousroundInfo, setpreviousroundInfo] = useState<any>();
   const [recheckRoundCounter, setrecheckRoundCounter] = useState(0);
+  const [recheckTransactionCounter, setrecheckTransactionCounter] = useState(0);
 
   const assets = [
     {
@@ -446,7 +447,14 @@ export default function Home() {
     };
 
     checkTransactions();
-  }, [selectedDashboardAsset, dashboard, address, round, selectedRound]);
+  }, [
+    selectedDashboardAsset,
+    dashboard,
+    address,
+    round,
+    selectedRound,
+    recheckTransactionCounter,
+  ]);
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -831,6 +839,39 @@ export default function Home() {
     }
   };
 
+  const claimWinning = async () => {
+    try {
+      const cosmwasmClient = await getSigningCosmWasmClient();
+      if (!cosmwasmClient || !address) {
+        console.error("stargateClient undefined or address undefined.");
+        return;
+      }
+
+      setopenModal(true);
+      setTransactionStatus("pending");
+
+      let msg = {
+        claim_winnings: {
+          round: selectedRound,
+          asset: selectedDashboardAsset?.toLowerCase(),
+        },
+      };
+
+      const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
+
+      if (tx.logs[0]) {
+        console.log("Transaction successful");
+        setopenModal(true);
+        setTransactionStatus("success");
+        setrecheckTransactionCounter(recheckTransactionCounter + 1);
+      }
+    } catch (err) {
+      console.log(err);
+      setopenModal(true);
+      setTransactionStatus("failed");
+    }
+  };
+
   // useEffect(() => {}, [selectedRound]);
 
   console.log("userPredictions", userPredictions);
@@ -977,10 +1018,22 @@ export default function Home() {
                     <Tbody>
                       {userPredictions?.map((prediction, i) => (
                         <Tr key={i}>
-                          <Td borderColor={"rgba(255, 0, 89, 0.474)"}>
+                          <Td
+                            cursor={
+                              prediction?.is_winner === true &&
+                              prediction?.paid === false
+                                ? "pointer"
+                                : undefined
+                            }
+                            onClick={() => claimWinning()}
+                            borderColor={"rgba(255, 0, 89, 0.474)"}
+                          >
                             {prediction?.is_winner === false
                               ? "Pending"
-                              : "Won"}
+                              : prediction?.is_winner === true &&
+                                prediction?.paid === false
+                              ? "Won(Click to claim)"
+                              : "Won(Claimed)"}
                           </Td>
                           <Td borderColor={"rgba(255, 0, 89, 0.474)"}>
                             $
