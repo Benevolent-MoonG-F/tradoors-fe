@@ -106,6 +106,8 @@ export default function Home() {
   const [recheckRoundCounter, setrecheckRoundCounter] = useState(0);
   const [recheckTransactionCounter, setrecheckTransactionCounter] = useState(0);
 
+  const [refetchNFTs, setrefetchNFTs] = useState(0);
+
   const assets = [
     {
       label: "Atom",
@@ -235,7 +237,7 @@ export default function Home() {
             used_nfts.push(nft);
           }
 
-          // console.log("query", allTokens);
+          console.log("walletnfts", query);
 
           const allTokens = wallet_nfts.concat(used_nfts);
 
@@ -250,7 +252,7 @@ export default function Home() {
       }
     };
     fetchNFTs();
-  }, [address]);
+  }, [address, refetchNFTs]);
 
   useEffect(() => {
     const getPrice = async () => {
@@ -668,12 +670,17 @@ export default function Home() {
       setopenModal(true);
       setTransactionStatus("pending");
 
-      console.log("selected", selectedNFT?.id);
+      console.log(
+        "precision",
+        (parseFloat(prediction) * currentPrecision).toFixed()
+      );
 
       let msg = {
         predict: {
           asset: selectedAsset?.toLowerCase(),
-          price: parseFloat(prediction) * currentPrecision,
+          price: parseFloat(
+            (parseFloat(prediction) * currentPrecision).toFixed()
+          ),
           nft_id: selectedNFT?.id,
         },
       };
@@ -864,6 +871,37 @@ export default function Home() {
         setopenModal(true);
         setTransactionStatus("success");
         setrecheckTransactionCounter(recheckTransactionCounter + 1);
+      }
+    } catch (err) {
+      console.log(err);
+      setopenModal(true);
+      setTransactionStatus("failed");
+    }
+  };
+
+  const withdraw_nft = async () => {
+    try {
+      const cosmwasmClient = await getSigningCosmWasmClient();
+      if (!cosmwasmClient || !address) {
+        console.error("stargateClient undefined or address undefined.");
+        return;
+      }
+
+      setopenModal(true);
+      setTransactionStatus("pending");
+
+      let msg = {
+        withdraw_nft: { nft_id: selectedNFT?.id },
+      };
+
+      const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
+
+      if (tx.logs[0]) {
+        console.log("Transaction successful");
+        setopenModal(true);
+        setTransactionStatus("success");
+        setrefetchNFTs(refetchNFTs + 1);
+        setrecheckStatusCounter(recheckStatusCounter + 1);
       }
     } catch (err) {
       console.log(err);
@@ -1413,7 +1451,7 @@ export default function Home() {
                       ml={5}
                       onClick={() => {
                         console.log("clicked");
-                        predict();
+                        withdraw_nft();
                       }}
                       px={6}
                       _focus={{
