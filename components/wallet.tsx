@@ -209,7 +209,10 @@ export const WalletSection = ({
           </a>
           {isAdmin && (
             <Text
-              onClick={() => setAdminPage(true)}
+              onClick={() => {
+                setDashboard(false);
+                setAdminPage(true);
+              }}
               cursor={"pointer"}
               mr={10}
               fontSize={"18px"}
