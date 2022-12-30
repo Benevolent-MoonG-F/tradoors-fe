@@ -316,7 +316,9 @@ export default function Home() {
           setrolloverStatus((prev) => ({
             ...prev,
             [selectedNFT?.id]:
-              query?.is_used === true && query?.has_been_sent === true
+              query?.is_used === true &&
+              query?.has_been_sent === true &&
+              query?.game_round < round
                 ? true
                 : false,
           }));
@@ -703,7 +705,7 @@ export default function Home() {
   };
 
   const rollover = async () => {
-    if (rolloverStatus[tokenid] === true) {
+    if (rolloverStatus[selectedNFT?.id] === true) {
       try {
         const cosmwasmClient = await getSigningCosmWasmClient();
         if (!cosmwasmClient || !address) {
@@ -711,8 +713,11 @@ export default function Home() {
           return;
         }
 
+        setopenModal(true);
+        setTransactionStatus("pending");
+
         let msg = {
-          roll_over_nft: {
+          roll_over_n_f_t: {
             round: rolloverRound[selectedNFT?.id],
             nft_id: selectedNFT?.id,
           },
@@ -730,9 +735,14 @@ export default function Home() {
           // toast.success("Transaction Succesful! 🚀", {
           //   toastId: 1,
           // });
+          setopenModal(true);
+          setTransactionStatus("success");
+          setrecheckStatusCounter(recheckStatusCounter + 1);
         }
       } catch (err) {
         console.log(err);
+        setopenModal(true);
+        setTransactionStatus("failed");
         // toast.error("An error occured", {
         //   toastId: 2,
         // });
@@ -790,10 +800,10 @@ export default function Home() {
       let msg = {
         set_winning_prices: {
           prices: [
-            parseFloat(junoFinal) * junoPrecision,
-            parseFloat(scrtFinal) * scrtPrecision,
-            parseFloat(osmoFinal) * osmoPrecision,
-            parseFloat(atomFinal) * atomPrecision,
+            parseFloat((parseFloat(junoFinal) * junoPrecision).toFixed()),
+            parseFloat((parseFloat(scrtFinal) * scrtPrecision).toFixed()),
+            parseFloat((parseFloat(osmoFinal) * osmoPrecision).toFixed()),
+            parseFloat((parseFloat(atomFinal) * atomPrecision).toFixed()),
           ],
         },
       };
@@ -1426,27 +1436,51 @@ export default function Home() {
                 )}
                 {nftStatus[selectedNFT?.id] === true ? (
                   <Flex>
-                    <Button
-                      onClick={() => {
-                        console.log("clicked");
-                        predict();
-                      }}
-                      px={6}
-                      _focus={{
-                        bgColor: "rgba(255, 0, 89, 0.474)",
-                      }}
-                      _active={{
-                        bgColor: "rgba(255, 0, 89, 0.474)",
-                      }}
-                      _hover={{
-                        bgColor: "rgba(255, 0, 89, 0.474)",
-                      }}
-                      bgColor={"rgba(255, 0, 89, 0.474)"}
-                      mt={5}
-                      disabled={!prediction}
-                    >
-                      Play
-                    </Button>
+                    {rolloverStatus[selectedNFT?.id] === true ? (
+                      <Button
+                        onClick={() => {
+                          console.log("clicked");
+                          rollover();
+                        }}
+                        px={6}
+                        _focus={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        _active={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        _hover={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        bgColor={"rgba(255, 0, 89, 0.474)"}
+                        mt={5}
+                        disabled={!prediction}
+                      >
+                        Rollover
+                      </Button>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          console.log("clicked");
+                          predict();
+                        }}
+                        px={6}
+                        _focus={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        _active={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        _hover={{
+                          bgColor: "rgba(255, 0, 89, 0.474)",
+                        }}
+                        bgColor={"rgba(255, 0, 89, 0.474)"}
+                        mt={5}
+                        disabled={!prediction}
+                      >
+                        Play
+                      </Button>
+                    )}
                     <Button
                       ml={5}
                       onClick={() => {
