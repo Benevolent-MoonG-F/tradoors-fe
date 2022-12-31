@@ -41,6 +41,7 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 interface WalletSection {
   setDashboard: Dispatch<SetStateAction<boolean>>;
   setAdminPage: Dispatch<SetStateAction<boolean>>;
+  setfaq: Dispatch<SetStateAction<boolean>>;
   isAdmin: boolean;
 }
 
@@ -48,6 +49,7 @@ export const WalletSection = ({
   setDashboard,
   isAdmin,
   setAdminPage,
+  setfaq,
 }: WalletSection) => {
   const walletManager = useWallet();
   const [isMobileDevice] = useMediaQuery("(max-width: 750px)");
@@ -154,6 +156,7 @@ export const WalletSection = ({
         onClick={() => {
           setDashboard(false);
           setAdminPage(false);
+          setfaq(false);
         }}
       >
         <Img src={Logo.src} h={"70px"} w={"140px"} />
@@ -168,10 +171,14 @@ export const WalletSection = ({
       ) : (
         <Flex alignItems={"center"}>
           <Text
-            onClick={() => setDashboard(true)}
+            onClick={() => {
+              setDashboard(true);
+              setAdminPage(false);
+              setfaq(false);
+            }}
             cursor={"pointer"}
             mr={10}
-            fontSize={"18px"}
+            fontSize={"16px"}
             color='white'
             fontWeight={"800"}
           >
@@ -185,7 +192,7 @@ export const WalletSection = ({
             <Text
               cursor={"pointer"}
               mr={10}
-              fontSize={"18px"}
+              fontSize={"16px"}
               color='white'
               fontWeight={"800"}
             >
@@ -200,7 +207,7 @@ export const WalletSection = ({
             <Text
               cursor={"pointer"}
               mr={10}
-              fontSize={"18px"}
+              fontSize={"16px"}
               color='white'
               fontWeight={"800"}
             >
@@ -212,16 +219,31 @@ export const WalletSection = ({
               onClick={() => {
                 setDashboard(false);
                 setAdminPage(true);
+                setfaq(false);
               }}
               cursor={"pointer"}
               mr={10}
-              fontSize={"18px"}
+              fontSize={"16px"}
               color='white'
               fontWeight={"800"}
             >
               Admin
             </Text>
           )}
+          <Text
+            onClick={() => {
+              setDashboard(false);
+              setAdminPage(false);
+              setfaq(true);
+            }}
+            cursor={"pointer"}
+            mr={10}
+            fontSize={"16px"}
+            color='white'
+            fontWeight={"800"}
+          >
+            FAQ
+          </Text>
           <Grid
             w='full'
             maxW='sm'
@@ -264,6 +286,7 @@ export const WalletSection = ({
                 onClick={() => {
                   setDashboard(true);
                   setisOpen(false);
+                  setfaq(false);
                 }}
               >
                 Dashboard
@@ -294,11 +317,23 @@ export const WalletSection = ({
                   fontSize={"20px"}
                   onClick={() => {
                     setAdminPage(true);
+                    setDashboard(false);
+                    setfaq(false);
                   }}
                 >
                   Admin
                 </Text>
               )}
+              <Text
+                fontSize={"20px"}
+                onClick={() => {
+                  setDashboard(false);
+                  setisOpen(false);
+                  setfaq(true);
+                }}
+              >
+                FAQ
+              </Text>
             </Flex>
           </Box>
         </Slide>

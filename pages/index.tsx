@@ -24,6 +24,8 @@ import {
   Td,
   useMediaQuery,
   Tooltip,
+  Collapse,
+  useDisclosure,
 } from "@chakra-ui/react";
 
 import {
@@ -42,7 +44,11 @@ import DISCORD from "../public/discord-icon.svg";
 import TWITTER from "../public/twitter-icon.svg";
 import { MobileWallet } from "../components/mobilewallet";
 import { coin as COIN } from "@cosmjs/stargate";
-import { ArrowBackIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import {
+  ArrowBackIcon,
+  ArrowForwardIcon,
+  ChevronDownIcon,
+} from "@chakra-ui/icons";
 
 const library = {
   title: "Juno Network",
@@ -105,8 +111,15 @@ export default function Home() {
   const [previousroundInfo, setpreviousroundInfo] = useState<any>();
   const [recheckRoundCounter, setrecheckRoundCounter] = useState(0);
   const [recheckTransactionCounter, setrecheckTransactionCounter] = useState(0);
+  const [faq, setfaq] = useState(false);
 
   const [refetchNFTs, setrefetchNFTs] = useState(0);
+  const { isOpen: firstOpen, onToggle: firstonToggle } = useDisclosure();
+  const { isOpen: secondOpen, onToggle: secondonToggle } = useDisclosure();
+  const { isOpen: thirdOpen, onToggle: thirdonToggle } = useDisclosure();
+  const { isOpen: fourthOpen, onToggle: fourthToggle } = useDisclosure();
+  const { isOpen: fifthOpen, onToggle: fifthToggle } = useDisclosure();
+  const { isOpen: sixthOpen, onToggle: sixthToggle } = useDisclosure();
 
   const assets = [
     {
@@ -939,18 +952,8 @@ export default function Home() {
         setAdminPage={setadminPage}
         isAdmin={isAdmin}
         setDashboard={setDashboard}
+        setfaq={setfaq}
       />
-      {/* 
-      <Box
-        color='white'
-        // minH='100vh'
-        zIndex={1}
-        backgroundAttachment={"fixed"}
-        backgroundRepeat={"no-repeat"}
-        backgroundSize={"cover"}
-        filter={"blur(3px)"}
-        bg="linear-gradient(0deg, rgba(0, 11, 30, 0.603), rgba(7, 7, 7, 0.603)) ,url('https://images.unsplash.com/photo-1498736297812-3a08021f206f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2271&q=80')"
-      ></Box> */}
 
       <Box
         // zIndex={1}
@@ -1104,6 +1107,199 @@ export default function Home() {
                     </Tbody>
                   </Table>
                 </TableContainer>
+              </Flex>
+            </>
+          ) : faq ? (
+            <>
+              <Flex
+                mt={20}
+                minH={"100vh"}
+                w={"80%"}
+                border='1px solid "rgba(255, 0, 89, 0.474)"'
+                flexDirection={"column"}
+              >
+                <Flex mb={10} justifyContent={"center"}>
+                  <Text fontWeight={"bold"} fontSize={"20px"}>
+                    Frequently Asked Questions
+                  </Text>
+                </Flex>
+
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={firstOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => firstonToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    How to qualify and participate in the weekly price
+                    prediction game?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={firstOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    To qualify, you must own minimum 1 Tradooor NFT, which is
+                    not listed on a secondary market. For each NFT staked to the
+                    game contract, you receive 1 entry into the weekly contest.
+                    1 NFT Staked = 1 Game Entry. 4 NFTs staked = 4 Game Entries.
+                    After staking your NFT, select which asset you want to
+                    predict and enter a price.
+                  </Text>
+                </Collapse>
+
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={secondOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => secondonToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    Do I need to pay for each entry?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={secondOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    Tradooors Price Prediction game is a first of its kind on
+                    cosmos, “Loss-less” price prediction game. Rewards are
+                    generated from our validator and other revenue sources to
+                    create sustainable prize pools. Stake with our validator to
+                    help increase the prizes each week. Once you own a Tradooor,
+                    you have secured your ticket to play all games in the
+                    future.
+                  </Text>
+                </Collapse>
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={thirdOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => thirdonToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    When does the game start and end?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={thirdOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    Game contracts will lock for each weekly prize pool on
+                    Sunday at 00:00 UTC. Lock and enter your price prediction
+                    before that point each week to participate. The next game
+                    will open up for entries following the game contract
+                    locking.
+                  </Text>
+                </Collapse>
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={fourthOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => fourthToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    How are prizes distributed?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={fourthOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    Use the “Dashboard” page to view past entries and check
+                    prize status.
+                  </Text>
+                </Collapse>
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={fifthOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => fifthToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    Do I lose my NFT if I lose the weekly game?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={fifthOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    Absolutely not, your NFT is always yours to be used in
+                    future games or traded on the secondary market as you wish.
+                  </Text>
+                </Collapse>
+                <Flex
+                  cursor={"pointer"}
+                  borderTop={"1px"}
+                  px={3}
+                  py={4}
+                  borderBottom={sixthOpen ? "none" : "1px"}
+                  borderColor={"rgba(255, 0, 89, 0.474)"}
+                  justifyContent={"space-between"}
+                  alignItems={"center"}
+                  onClick={() => sixthToggle()}
+                >
+                  <Text fontSize={"18px"} fontWeight={"bold"}>
+                    What happens in the case of a tie?
+                  </Text>
+                  <ChevronDownIcon />
+                </Flex>
+                <Collapse in={sixthOpen}>
+                  <Text
+                    py={2}
+                    px={2}
+                    borderBottom={"1px"}
+                    borderColor={"rgba(255, 0, 89, 0.474)"}
+                  >
+                    If two or more users enter the same price prediction for a
+                    game, the rewards are split across the winning addresses.
+                  </Text>
+                </Collapse>
               </Flex>
             </>
           ) : adminPage ? (
