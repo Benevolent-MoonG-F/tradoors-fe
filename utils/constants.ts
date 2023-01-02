@@ -5,4 +5,4 @@ export const NFT_ADDRESS =
 //   "juno1uhjfy58c5mtdnqkk5f8403uu3t6y4j0qdlntfttj9kvakcaqz3gsh2hdsg";
 
 export const DR_ADDRESS =
-  "juno1x966j8yh2ywg5z76uu5syafpzhhkq9nky2jtnet3jsuxupdeu57qcxqneh";
+  "juno1r8v2lkqa8m02pp6z55af8z6x8e4d2jr9x4hky4dzh4f66jdscxgq5aylt5";
