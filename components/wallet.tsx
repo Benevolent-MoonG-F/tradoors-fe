@@ -200,7 +200,7 @@ export const WalletSection = ({
             </Text>
           </a>
           <a
-            href='https://www.mintscan.io/juno/validators/junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
+            href='https://wallet.keplr.app/chains/juno?modal=validator&chain=juno-1&validator_address=junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
             target={"_blank"}
             rel='noreferrer'
           >
@@ -303,7 +303,7 @@ export const WalletSection = ({
               </a>
 
               <a
-                href='https://www.mintscan.io/juno/validators/junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
+                href='https://wallet.keplr.app/chains/juno?modal=validator&chain=juno-1&validator_address=junovaloper1ssptq8zljxmvm9h7g5yaxyv9khpf84793dkt3j'
                 target={"_blank"}
                 rel='noreferrer'
               >
