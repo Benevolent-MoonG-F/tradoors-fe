@@ -109,9 +109,11 @@ export default function Home() {
   const [osmoPrecision, setosmoPrecision] = useState(0);
   const [atomPrecision, setatomPrecision] = useState(0);
   const [previousroundInfo, setpreviousroundInfo] = useState<any>();
+  const [currentRoundInfo, setCurrentRoundInfo] = useState<any>();
   const [recheckRoundCounter, setrecheckRoundCounter] = useState(0);
   const [recheckTransactionCounter, setrecheckTransactionCounter] = useState(0);
   const [faq, setfaq] = useState(false);
+  const [junoPrice, setjunoPrice] = useState(0);
 
   const [refetchNFTs, setrefetchNFTs] = useState(0);
   const { isOpen: firstOpen, onToggle: firstonToggle } = useDisclosure();
@@ -250,7 +252,7 @@ export default function Home() {
             used_nfts.push(nft);
           }
 
-          console.log("walletnfts", query);
+          console.log("walletnfts", used_nfts);
 
           const allTokens = wallet_nfts.concat(used_nfts);
 
@@ -279,9 +281,16 @@ export default function Home() {
             `https://api.coingecko.com/api/v3/coins/${asset[0].id}`
           );
 
+          const junoInfo = await axios.get(
+            `https://api.coingecko.com/api/v3/coins/juno-network`
+          );
+
           const price = coinInfo.data.market_data.current_price.usd;
 
+          const junoPrice = junoInfo.data.market_data.current_price.usd;
+
           setPrice(price);
+          setjunoPrice(junoPrice);
         } catch (err) {
           console.log(err);
         }
@@ -378,12 +387,37 @@ export default function Home() {
           const dayInfoMsg = {
             get_day_info: { round: query?.count - 1 },
           };
+
+          const currentDayMsg = {
+            get_day_info: { round: query?.count },
+          };
+
+          // console.log("currentDay", currentDay);
+
           const previousday = await cosmwasmClient.queryContractSmart(
             DR_ADDRESS,
             dayInfoMsg
           );
 
+          const currentDay = await cosmwasmClient.queryContractSmart(
+            DR_ADDRESS,
+            currentDayMsg
+          );
+
+          setCurrentRoundInfo(currentDay);
+
           setpreviousroundInfo(previousday);
+        } else if (query?.count) {
+          const currentDayMsg = {
+            get_day_info: { round: query?.count },
+          };
+
+          const currentDay = await cosmwasmClient.queryContractSmart(
+            DR_ADDRESS,
+            currentDayMsg
+          );
+
+          setCurrentRoundInfo(currentDay);
         }
       } catch (err) {
         console.log(err);
@@ -406,58 +440,65 @@ export default function Home() {
             return;
           }
 
-          const entrypoint = {
-            get_user_predictions: {
-              round: selectedRound,
-              asset: selectedDashboardAsset?.toLowerCase(),
-              address: address,
-            },
-          };
+          const roundArray = Array.from(Array(selectedRound + 1).keys());
 
-          const round_info_msg = {
-            get_day_info: { round: selectedRound },
-          };
+          const predictions: any[] = [];
 
-          const roundquery = await cosmwasmClient.queryContractSmart(
-            DR_ADDRESS,
-            round_info_msg
-          );
+          for (let i = 0; i < roundArray.length; i++) {
+            if (i !== 0) {
+              const entrypoint = {
+                get_user_predictions: {
+                  round: roundArray[i],
+                  asset: selectedDashboardAsset?.toLowerCase(),
+                  address: address,
+                },
+              };
 
-          console.log("roundquery", roundquery);
+              const round_info_msg = {
+                get_day_info: { round: roundArray[i] },
+              };
 
-          const query = await cosmwasmClient.queryContractSmart(
-            DR_ADDRESS,
-            entrypoint
-          );
+              console.log("here");
 
-          const predictions = [];
+              const roundquery = await cosmwasmClient.queryContractSmart(
+                DR_ADDRESS,
+                round_info_msg
+              );
 
-          for (let i = 0; i < query.predictions.length; i++) {
-            const msg = {
-              get_prediction: {
-                round: selectedRound,
-                asset: selectedDashboardAsset?.toLowerCase(),
-                pred_id: query.predictions[i],
-              },
-            };
-            let prediction_query = await cosmwasmClient.queryContractSmart(
-              DR_ADDRESS,
-              msg
-            );
+              if (roundquery?.has_started) {
+                const query = await cosmwasmClient.queryContractSmart(
+                  DR_ADDRESS,
+                  entrypoint
+                );
 
-            // console.log("prediction_query", query.predictions[i]);
+                // const predictionRounds = []
 
-            prediction_query["endTime"] = roundquery?.close_time;
-            prediction_query["id"] = query.predictions[i];
+                for (let j = 0; j < query.predictions.length; j++) {
+                  const msg = {
+                    get_prediction: {
+                      round: roundArray[i],
+                      asset: selectedDashboardAsset?.toLowerCase(),
+                      pred_id: query.predictions[j],
+                    },
+                  };
+                  let prediction_query =
+                    await cosmwasmClient.queryContractSmart(DR_ADDRESS, msg);
+                  prediction_query["endTime"] = roundquery?.close_time;
+                  prediction_query["id"] = query.predictions[j];
+                  prediction_query["round"] = roundArray[i];
 
-            predictions.push(prediction_query);
+                  console.log("prediction", prediction_query);
+
+                  predictions.push(prediction_query);
+                }
+              }
+              // for(let j = 0; i < )
+            }
           }
 
           setuserPredictions(
             predictions.filter((prediction) => prediction.owner === address)
           );
-
-          console.log("query", query);
         } catch (err) {
           setuserPredictions([]);
           console.log(err);
@@ -937,7 +978,7 @@ export default function Home() {
 
   // useEffect(() => {}, [selectedRound]);
 
-  console.log("userPredictions", userPredictions);
+  console.log("currentRoundInfo", currentRoundInfo);
 
   return (
     // <Container margin={0} maxW='100%'>
@@ -1004,11 +1045,11 @@ export default function Home() {
                     )}
                   />
                 </Flex>
-                <Flex justifyContent={"space-between"} alignItems={"center"}>
+                <Flex alignItems={"center"}>
                   <Text fontWeight={"bold"} fontSize={"18px"} mb={5}>
                     Transactions
                   </Text>
-                  <Flex alignItems={"center"}>
+                  {/* <Flex alignItems={"center"}>
                     <Flex
                       onClick={() => {
                         if (selectedRound !== 1) {
@@ -1036,12 +1077,18 @@ export default function Home() {
                       <Text>Next</Text>
                       <ArrowForwardIcon ml={1} />
                     </Flex>
-                  </Flex>
+                  </Flex> */}
                 </Flex>
                 <TableContainer>
                   <Table w={"100%"}>
                     <Thead>
                       <Tr>
+                        <Th
+                          borderColor={"rgba(255, 0, 89, 0.474)"}
+                          color={"white"}
+                        >
+                          Round
+                        </Th>
                         <Th
                           borderColor={"rgba(255, 0, 89, 0.474)"}
                           color={"white"}
@@ -1071,6 +1118,9 @@ export default function Home() {
                     <Tbody>
                       {userPredictions?.map((prediction, i) => (
                         <Tr key={i}>
+                          <Td borderColor={"rgba(255, 0, 89, 0.474)"}>
+                            {prediction?.round}
+                          </Td>
                           <Td
                             cursor={
                               prediction?.is_winner === true &&
@@ -1505,7 +1555,13 @@ export default function Home() {
                     fontSize={"24px"}
                     textAlign={"center"}
                   >
-                    $6000
+                    $
+                    {address && currentRoundInfo?.total_amount
+                      ? (
+                          (currentRoundInfo?.total_amount / 1000000) *
+                          junoPrice
+                        ).toFixed(2)
+                      : 0}
                   </Text>
                   <Text>In Weekly Pot</Text>
                 </Flex>
