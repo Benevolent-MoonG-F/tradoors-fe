@@ -912,7 +912,7 @@ export default function Home() {
     }
   };
 
-  const claimWinning = async () => {
+  const claimWinning = async (round: any) => {
     try {
       const cosmwasmClient = await getSigningCosmWasmClient();
       if (!cosmwasmClient || !address) {
@@ -925,7 +925,7 @@ export default function Home() {
 
       let msg = {
         claim_winnings: {
-          round: selectedRound,
+          round: round,
           asset: selectedDashboardAsset?.toLowerCase(),
         },
       };
@@ -1128,7 +1128,7 @@ export default function Home() {
                                 ? "pointer"
                                 : undefined
                             }
-                            onClick={() => claimWinning()}
+                            onClick={() => claimWinning(prediction?.round)}
                             borderColor={"rgba(255, 0, 89, 0.474)"}
                           >
                             {prediction?.is_winner === false
