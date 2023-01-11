@@ -471,9 +471,12 @@ export default function Home() {
                   entrypoint
                 );
 
+                console.log("roundquerypred", query);
+
                 // const predictionRounds = []
 
                 for (let j = 0; j < query.predictions.length; j++) {
+                  // console.log("here pred");
                   const msg = {
                     get_prediction: {
                       round: roundArray[i],
@@ -481,13 +484,20 @@ export default function Home() {
                       pred_id: query.predictions[j],
                     },
                   };
+
+                  console.log("here pred");
                   let prediction_query =
                     await cosmwasmClient.queryContractSmart(DR_ADDRESS, msg);
                   prediction_query["endTime"] = roundquery?.close_time;
                   prediction_query["id"] = query.predictions[j];
                   prediction_query["round"] = roundArray[i];
 
-                  console.log("prediction", prediction_query);
+                  console.log(
+                    "prediction",
+                    prediction_query,
+                    roundArray[i],
+                    query.predictions[j]
+                  );
 
                   predictions.push(prediction_query);
                 }
