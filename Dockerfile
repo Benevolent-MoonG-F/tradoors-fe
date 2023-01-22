@@ -1,3 +1,5 @@
+FROM --platform=linux/amd64 node:lts-alpine
+
 FROM node:alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
@@ -29,3 +31,4 @@ USER nextjs
 EXPOSE 3000
 
 CMD ["npm","start"]
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

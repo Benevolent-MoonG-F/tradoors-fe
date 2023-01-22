@@ -192,8 +192,6 @@ export default function Home() {
     },
   };
 
-  console.log(nftStatus);
-
   useEffect(() => {
     const fetchList = async () => {
       try {
@@ -227,17 +225,14 @@ export default function Home() {
           };
           const obj = { tokens: { owner: address, limit: 200 } };
           var encoded = window.btoa(JSON.stringify(obj));
-          console.log("encoded", encoded);
+
           const tokens = await axios.get(`
                https://api.uni.junonetwork.io/cosmwasm/wasm/v1/contract/${NFT_ADDRESS}/smart/${encoded}`);
-          console.log(tokens);
 
           const query = await cosmwasmClient.queryContractSmart(
             DR_ADDRESS,
             msg
           );
-
-          console.log("token", query?.locked_tokens.length);
 
           const wallet_nfts = [];
           const used_nfts = [];
@@ -251,8 +246,6 @@ export default function Home() {
             const nft = { used: true, id: query?.locked_tokens[j] };
             used_nfts.push(nft);
           }
-
-          console.log("walletnfts", used_nfts);
 
           const allTokens = wallet_nfts.concat(used_nfts);
 
@@ -309,9 +302,6 @@ export default function Home() {
         try {
           const cosmwasmClient = await getSigningCosmWasmClient();
 
-          console.log(address);
-          console.log(cosmwasmClient);
-
           if (!cosmwasmClient || !address) {
             console.error("stargateClient undefined or address undefined.");
             return;
@@ -327,8 +317,6 @@ export default function Home() {
             DR_ADDRESS,
             entrypoint
           );
-
-          console.log("query", query);
 
           setnftStatus((prev) => ({
             ...prev,
@@ -427,8 +415,6 @@ export default function Home() {
     getRound();
   }, [address, recheckRoundCounter]);
 
-  console.log("previousroundInfo", previousroundInfo);
-
   useEffect(() => {
     const checkTransactions = async () => {
       if (dashboard) {
@@ -458,8 +444,6 @@ export default function Home() {
                 get_day_info: { round: roundArray[i] },
               };
 
-              console.log("here");
-
               const roundquery = await cosmwasmClient.queryContractSmart(
                 DR_ADDRESS,
                 round_info_msg
@@ -470,8 +454,6 @@ export default function Home() {
                   DR_ADDRESS,
                   entrypoint
                 );
-
-                console.log("roundquerypred", query);
 
                 // const predictionRounds = []
 
@@ -485,19 +467,11 @@ export default function Home() {
                     },
                   };
 
-                  console.log("here pred");
                   let prediction_query =
                     await cosmwasmClient.queryContractSmart(DR_ADDRESS, msg);
                   prediction_query["endTime"] = roundquery?.close_time;
                   prediction_query["id"] = query.predictions[j];
                   prediction_query["round"] = roundArray[i];
-
-                  console.log(
-                    "prediction",
-                    prediction_query,
-                    roundArray[i],
-                    query.predictions[j]
-                  );
 
                   predictions.push(prediction_query);
                 }
@@ -692,12 +666,6 @@ export default function Home() {
           owner_nft
         );
 
-        console.log(owner);
-
-        console.log("sending");
-
-        console.log(address);
-
         let entrypoint = {
           send_nft: {
             contract: DR_ADDRESS,
@@ -718,8 +686,6 @@ export default function Home() {
           setopenModal(true);
           setTransactionStatus("success");
         }
-
-        console.log("tx", tx);
       }
     } catch (err) {
       setopenModal(true);
@@ -737,11 +703,6 @@ export default function Home() {
       }
       setopenModal(true);
       setTransactionStatus("pending");
-
-      console.log(
-        "precision",
-        (parseFloat(prediction) * currentPrecision).toFixed()
-      );
 
       let msg = {
         predict: {
@@ -841,7 +802,6 @@ export default function Home() {
       );
 
       if (tx.logs[0]) {
-        console.log("Transaction successful");
         setopenModal(true);
         setTransactionStatus("success");
       }
@@ -877,7 +837,6 @@ export default function Home() {
       const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
 
       if (tx.logs[0]) {
-        console.log("Transaction successful");
         setopenModal(true);
         setTransactionStatus("success");
         setjunoFinal("");
@@ -910,7 +869,6 @@ export default function Home() {
       const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
 
       if (tx.logs[0]) {
-        console.log("Transaction successful");
         setopenModal(true);
         setTransactionStatus("success");
         setrecheckRoundCounter(recheckRoundCounter + 1);
@@ -943,7 +901,6 @@ export default function Home() {
       const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
 
       if (tx.logs[0]) {
-        console.log("Transaction successful");
         setopenModal(true);
         setTransactionStatus("success");
         setrecheckTransactionCounter(recheckTransactionCounter + 1);
@@ -973,7 +930,6 @@ export default function Home() {
       const tx = await cosmwasmClient.execute(address, DR_ADDRESS, msg, "auto");
 
       if (tx.logs[0]) {
-        console.log("Transaction successful");
         setopenModal(true);
         setTransactionStatus("success");
         setrefetchNFTs(refetchNFTs + 1);
@@ -987,8 +943,6 @@ export default function Home() {
   };
 
   // useEffect(() => {}, [selectedRound]);
-
-  console.log("currentRoundInfo", currentRoundInfo);
 
   return (
     // <Container margin={0} maxW='100%'>
@@ -1703,7 +1657,6 @@ export default function Home() {
                     {rolloverStatus[selectedNFT?.id] === true ? (
                       <Button
                         onClick={() => {
-                          console.log("clicked");
                           rollover();
                         }}
                         px={6}
@@ -1725,7 +1678,6 @@ export default function Home() {
                     ) : (
                       <Button
                         onClick={() => {
-                          console.log("clicked");
                           predict();
                         }}
                         px={6}
@@ -1748,7 +1700,6 @@ export default function Home() {
                     <Button
                       ml={5}
                       onClick={() => {
-                        console.log("clicked");
                         withdraw_nft();
                       }}
                       px={6}
@@ -1817,7 +1768,7 @@ export default function Home() {
               Socials -
             </Text>
             <a
-              href='https://discord.gg/hhfu8snRtX'
+              href='https://discord.tradooors.zone/'
               rel='noreferrer'
               target={"_blank"}
             >

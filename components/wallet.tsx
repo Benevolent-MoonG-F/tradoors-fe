@@ -33,7 +33,7 @@ import {
 } from "../components";
 import { chainName } from "../config";
 
-import Logo from "../public/TradooorsLogo3.png";
+import Logo from "../public/tradlogo.png";
 import { shortenAddress } from "../utils";
 import { Dispatch, SetStateAction } from "react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
@@ -140,8 +140,6 @@ export const WalletSection = ({
     />
   );
 
-  console.log("admin", isAdmin);
-
   return (
     <Flex
       bgColor={"#4C0F25"}
@@ -159,7 +157,7 @@ export const WalletSection = ({
           setfaq(false);
         }}
       >
-        <Img src={Logo.src} h={"70px"} w={"140px"} />
+        <Img src={Logo.src} h={"70px"} />
       </Flex>
       {isMobileDevice ? (
         <HamburgerIcon
