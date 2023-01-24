@@ -227,7 +227,7 @@ export default function Home() {
           var encoded = window.btoa(JSON.stringify(obj));
 
           const tokens = await axios.get(`
-               https://api.uni.junonetwork.io/cosmwasm/wasm/v1/contract/${NFT_ADDRESS}/smart/${encoded}`);
+          https://lcd-juno.itastakers.com/cosmwasm/wasm/v1/contract/${NFT_ADDRESS}/smart/${encoded}`);
 
           const query = await cosmwasmClient.queryContractSmart(
             DR_ADDRESS,
@@ -798,7 +798,7 @@ export default function Home() {
         msg,
         "auto",
         undefined,
-        [COIN(parseFloat(tokenAmount) * 1000000, "ujunox")]
+        [COIN(parseFloat(tokenAmount) * 1000000, "ujuno")]
       );
 
       if (tx.logs[0]) {
