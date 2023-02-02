@@ -170,6 +170,21 @@ export const WalletSection = ({
         <Flex alignItems={"center"}>
           <Text
             onClick={() => {
+              setDashboard(false);
+              setAdminPage(false);
+              setfaq(false);
+            }}
+            cursor={"pointer"}
+            mr={10}
+            fontSize={"16px"}
+            color='white'
+            fontWeight={"800"}
+          >
+            Home
+          </Text>
+
+          <Text
+            onClick={() => {
               setDashboard(true);
               setAdminPage(false);
               setfaq(false);
@@ -279,6 +294,16 @@ export const WalletSection = ({
             </Flex>
 
             <Flex px={10} color={"#ffffff"} flexDirection={"column"}>
+              <Text
+                fontSize={"20px"}
+                onClick={() => {
+                  setDashboard(false);
+                  setisOpen(false);
+                  setfaq(false);
+                }}
+              >
+                Home
+              </Text>
               <Text
                 fontSize={"20px"}
                 onClick={() => {

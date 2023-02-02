@@ -49,6 +49,7 @@ import {
   ArrowForwardIcon,
   ChevronDownIcon,
 } from "@chakra-ui/icons";
+import Terms from "../components/modals/Terms";
 
 const library = {
   title: "Juno Network",
@@ -97,6 +98,7 @@ export default function Home() {
   const [isMobileDevice] = useMediaQuery("(max-width: 750px)");
   const [isAdmin, setisAdmin] = useState(false);
   const [adminPage, setadminPage] = useState(false);
+  // const [home, setHome] = useState(true)
   const [junoFinal, setjunoFinal] = useState("");
   const [scrtFinal, setscrtFinal] = useState("");
   const [osmoFinal, setosmoFinal] = useState("");
@@ -122,6 +124,8 @@ export default function Home() {
   const { isOpen: fourthOpen, onToggle: fourthToggle } = useDisclosure();
   const { isOpen: fifthOpen, onToggle: fifthToggle } = useDisclosure();
   const { isOpen: sixthOpen, onToggle: sixthToggle } = useDisclosure();
+
+  const { isOpen: isTermsOpen, onClose, onOpen } = useDisclosure();
 
   const assets = [
     {
@@ -1495,7 +1499,7 @@ export default function Home() {
                   py={5}
                   border={"3px solid rgba(255, 0, 89, 0.474)"}
                   flexDirection={"column"}
-                  w={"200px"}
+                  // w={"250px"}
                 >
                   <Text
                     fontWeight={"bold"}
@@ -1510,7 +1514,17 @@ export default function Home() {
                         ).toFixed(2)
                       : 0}
                   </Text>
-                  <Text>In Weekly Pot</Text>
+                  <Text textAlign={"center"}>In Weekly Pot</Text>
+                  {currentRoundInfo?.close_time && (
+                    <Flex mt={5}>
+                      <Text fontSize={"14px"}>Current Round Close Time</Text>:
+                      <Text fontSize={"14px"}>
+                        {new Date(
+                          currentRoundInfo?.close_time * 1000
+                        ).toLocaleString()}
+                      </Text>
+                    </Flex>
+                  )}
                 </Flex>
               </Tooltip>
 
@@ -1744,7 +1758,7 @@ export default function Home() {
           <Flex
             display={dashboard || adminPage ? "none" : undefined}
             alignItems={"center"}
-            my={6}
+            mt={6}
             justifyContent={"center"}
           >
             <Text fontSize={"18px"} fontWeight={"600"} color='#ffffff'>
@@ -1765,6 +1779,16 @@ export default function Home() {
               <Image src={TWITTER.src} />
             </a>
           </Flex>
+          <Text
+            onClick={onOpen}
+            cursor={"pointer"}
+            mt={2}
+            textDecoration={"underline"}
+            justifyContent={"center "}
+            mb={5}
+          >
+            Terms and Conditions
+          </Text>
         </Flex>
       </Box>
 
@@ -1774,6 +1798,8 @@ export default function Home() {
         onClose={() => setopenModal(false)}
         transactionStatus={transactionStatus}
       />
+
+      <Terms isOpen={isTermsOpen} onClose={onClose} onOpen={onOpen} />
 
       <SelectNFT
         isOpen={openNFTModal}
