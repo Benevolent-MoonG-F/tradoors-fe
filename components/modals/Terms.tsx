@@ -39,8 +39,8 @@ export default function Terms({
               <Text fontSize={"14px"}>
                 Welcome to Tradooors Price Prediction Game. By accessing and
                 using our site, you agree to be bound by the following terms and
-                conditions ("Terms"). If you do not agree to these Terms, please
-                do not use Tradooors.
+                conditions (&quot;Terms&quot;). If you do not agree to these
+                Terms, please do not use Tradooors.
               </Text>
               <Text fontSize={"14px"} my={5}>
                 1. Eligibility: You must be at least 18 years of age to use
@@ -73,13 +73,14 @@ export default function Terms({
                 unless it is required to do so by law.
               </Text>
               <Text fontSize={"14px"} my={5}>
-                5. Disclaimer of Warranties: Tradooors is provided on an "as is"
-                and "as available" basis. Tradooors makes no warranties of any
-                kind, whether express or implied, including but not limited to
-                implied warranties of merchantability, fitness for a particular
-                purpose, and non-infringement. Tradooors does not warrant that
-                the website will be available at all times or that it will be
-                free from errors or viruses.
+                5. Disclaimer of Warranties: Tradooors is provided on an
+                &quot;as is&quot; and &quot;as available&quot; basis. Tradooors
+                makes no warranties of any kind, whether express or implied,
+                including but not limited to implied warranties of
+                merchantability, fitness for a particular purpose, and
+                non-infringement. Tradooors does not warrant that the website
+                will be available at all times or that it will be free from
+                errors or viruses.
               </Text>
               <Text fontSize={"14px"} my={5}>
                 6. Limitation of Liability: Tradooors will not be liable for any
@@ -93,10 +94,10 @@ export default function Terms({
               <Text fontSize={"14px"} my={5}>
                 7. Indemnification: You agree to indemnify and hold Tradooors
                 and its affiliates, officers, agents, and employees harmless
-                from any claim or demand, including reasonable attorneys' fees,
-                made by any third party due to or arising out of your use of
-                Tradooors, your violation of these Terms, or your violation of
-                any rights of another.
+                from any claim or demand, including reasonable attorneys&apos;
+                fees, made by any third party due to or arising out of your use
+                of Tradooors, your violation of these Terms, or your violation
+                of any rights of another.
               </Text>
               <Text fontSize={"14px"} my={5}>
                 8. Severability: If any provision of these Terms is found to be
