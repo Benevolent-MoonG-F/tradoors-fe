@@ -1099,8 +1099,12 @@ export default function Home() {
                             onClick={() => claimWinning(prediction?.round)}
                             borderColor={"rgba(255, 0, 89, 0.474)"}
                           >
-                            {prediction?.is_winner === false
+                            {prediction?.is_winner === false &&
+                            new Date(prediction?.endTime) > new Date()
                               ? "Pending"
+                              : prediction?.is_winner === false &&
+                                new Date(prediction?.endTime) < new Date()
+                              ? "Lost"
                               : prediction?.is_winner === true &&
                                 prediction?.paid === false
                               ? "Won(Click to claim)"
@@ -1154,7 +1158,7 @@ export default function Home() {
                   onClick={() => firstonToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  What is a “loss-less” game?
+                    What is a “loss-less” game?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1165,7 +1169,14 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                    Loss-less games are a unique approach to gaming. Compared to traditional financial games, a loss-less game does not require direct capital input to generate the prizes. Prizes are generate off of yield from pooled assets and sustainable revenue sources. You maintain the rights to your L1 assets and can withdraw at anytime. Want to support our community and help grow the prize pool? Stake with our validators or ask about other ways we generate our prizes in our discord!
+                    Loss-less games are a unique approach to gaming. Compared to
+                    traditional financial games, a loss-less game does not
+                    require direct capital input to generate the prizes. Prizes
+                    are generate off of yield from pooled assets and sustainable
+                    revenue sources. You maintain the rights to your L1 assets
+                    and can withdraw at anytime. Want to support our community
+                    and help grow the prize pool? Stake with our validators or
+                    ask about other ways we generate our prizes in our discord!
                   </Text>
                 </Collapse>
 
@@ -1181,7 +1192,7 @@ export default function Home() {
                   onClick={() => secondonToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  Do I need to pay for each entry?
+                    Do I need to pay for each entry?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1192,7 +1203,9 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                   No! If you’re a Tradooors NFT holder, then each NFT you hold is qualified for 1 entry each week. If you’re not a holder yet, click the “Marketplace” tab and buy one today!
+                    No! If you’re a Tradooors NFT holder, then each NFT you hold
+                    is qualified for 1 entry each week. If you’re not a holder
+                    yet, click the “Marketplace” tab and buy one today!
                   </Text>
                 </Collapse>
                 <Flex
@@ -1207,7 +1220,7 @@ export default function Home() {
                   onClick={() => thirdonToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  How do you play the game?
+                    How do you play the game?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1218,7 +1231,13 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                   On the home page, select and lock an NFT in the game. After your NFT is locked, you can input 1 entry per week. Each game lasts 1 week, with the window for locking your prediction in closing 24 hours before the end of the round. View your past entries and claim winnings on the “Dashboard” page. For a more in-depth review of how to participate, please review our medium article. 
+                    On the home page, select and lock an NFT in the game. After
+                    your NFT is locked, you can input 1 entry per week. Each
+                    game lasts 1 week, with the window for locking your
+                    prediction in closing 24 hours before the end of the round.
+                    View your past entries and claim winnings on the “Dashboard”
+                    page. For a more in-depth review of how to participate,
+                    please review our medium article.
                   </Text>
                 </Collapse>
                 <Flex
@@ -1233,7 +1252,7 @@ export default function Home() {
                   onClick={() => fourthToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  How are prizes distributed?
+                    How are prizes distributed?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1244,7 +1263,8 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                    Use the “Dashboard” page to view past entries and check prize status. 
+                    Use the “Dashboard” page to view past entries and check
+                    prize status.
                   </Text>
                 </Collapse>
                 <Flex
@@ -1259,7 +1279,7 @@ export default function Home() {
                   onClick={() => fifthToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  Do I lose my NFT if I lose the weekly game?
+                    Do I lose my NFT if I lose the weekly game?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1270,7 +1290,9 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                     No, your NFTs are locked for the duration of the game period. After a period concludes, if you would like to withdraw your NFT from future games, you are free to do so. 
+                    No, your NFTs are locked for the duration of the game
+                    period. After a period concludes, if you would like to
+                    withdraw your NFT from future games, you are free to do so.
                   </Text>
                 </Collapse>
                 <Flex
@@ -1285,7 +1307,7 @@ export default function Home() {
                   onClick={() => sixthToggle()}
                 >
                   <Text fontSize={"18px"} fontWeight={"bold"}>
-                  What happens in the case of a tie?
+                    What happens in the case of a tie?
                   </Text>
                   <ChevronDownIcon />
                 </Flex>
@@ -1296,10 +1318,15 @@ export default function Home() {
                     borderBottom={"1px"}
                     borderColor={"rgba(255, 0, 89, 0.474)"}
                   >
-                    If two or more users enter the same price prediction for a game, the rewards are split across the winning addresses.<br/>
-                      okay so those 4 things.<br/>          
-                      Add Home Button, FAQ text updates, Add Terms and Conditions, Add closing time on prediction page. Then we should be really good to go for awhile with this beta version!
-                    </Text>
+                    If two or more users enter the same price prediction for a
+                    game, the rewards are split across the winning addresses.
+                    <br />
+                    okay so those 4 things.
+                    <br />
+                    Add Home Button, FAQ text updates, Add Terms and Conditions,
+                    Add closing time on prediction page. Then we should be
+                    really good to go for awhile with this beta version!
+                  </Text>
                 </Collapse>
               </Flex>
             </>
