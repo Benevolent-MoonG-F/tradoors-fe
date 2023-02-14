@@ -1100,10 +1100,12 @@ export default function Home() {
                             borderColor={"rgba(255, 0, 89, 0.474)"}
                           >
                             {prediction?.is_winner === false &&
-                            new Date(prediction?.endTime) > new Date()
+                            new Date(prediction?.endTime * 1000).getTime() >
+                              new Date().getTime()
                               ? "Pending"
                               : prediction?.is_winner === false &&
-                                new Date(prediction?.endTime) < new Date()
+                                new Date(prediction?.endTime * 1000).getTime() <
+                                  new Date().getTime()
                               ? "Lost"
                               : prediction?.is_winner === true &&
                                 prediction?.paid === false
