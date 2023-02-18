@@ -1320,12 +1320,7 @@ export default function Home() {
                   >
                     If two or more users enter the same price prediction for a
                     game, the rewards are split across the winning addresses.
-                    <br />
-                    okay so those 4 things.
-                    <br />
-                    Add Home Button, FAQ text updates, Add Terms and Conditions,
-                    Add closing time on prediction page. Then we should be
-                    really good to go for awhile with this beta version!
+                    <br/>
                   </Text>
                 </Collapse>
               </Flex>
