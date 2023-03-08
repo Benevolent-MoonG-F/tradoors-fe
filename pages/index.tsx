@@ -229,6 +229,8 @@ export default function Home() {
           const tokens = await axios.get(`
           https://lcd-juno.itastakers.com/cosmwasm/wasm/v1/contract/${NFT_ADDRESS}/smart/${encoded}`);
 
+          console.log("tokens from blockchain", tokens);
+
           const query = await cosmwasmClient.queryContractSmart(
             DR_ADDRESS,
             msg
@@ -246,6 +248,9 @@ export default function Home() {
             const nft = { used: true, id: query?.locked_tokens[j] };
             used_nfts.push(nft);
           }
+
+          console.log("used", used_nfts);
+          console.log("wallet", used_nfts);
 
           const allTokens = wallet_nfts.concat(used_nfts);
 
