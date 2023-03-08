@@ -236,6 +236,8 @@ export default function Home() {
             msg
           );
 
+          console.log("query before iteration", query);
+
           const wallet_nfts = [];
           const used_nfts = [];
 
